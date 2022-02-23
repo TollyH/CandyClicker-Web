@@ -480,7 +480,7 @@ $('#reincarnate-agree-button').on('click', function () {
 
 $('#save-button').on('click', function () {
     let saveBytes = getSaveBytes();
-    if (isOnMobile) {
+    if (isOnMobile && confirm("Are you sure? This will overwrite any existing save data")) {
         localStorage.setItem('save_data', saveBytes.join());
     }
     else {
@@ -489,7 +489,7 @@ $('#save-button').on('click', function () {
 });
 
 $('#load-button').on('click', function () {
-    if (isOnMobile) {
+    if (isOnMobile && confirm("Are you sure? This will overwrite your current progress with the save data")) {
         loadSaveBytes(new Uint8Array(localStorage.getItem('save_data').split(',')));
     }
     else {
