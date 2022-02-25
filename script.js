@@ -532,7 +532,7 @@ function timerPerSecondElapsed() {
         let perSecond = candyPSReincarnationMultiplier <= 1 ? candyPerSecond : candyPerSecond * candyPSReincarnationMultiplier;
         let clicksPerSecond = previousClicksPerSecond.length >= 2 ? previousClicksPerSecond.slice(1).reduce((a, b) => a + b) / (previousClicksPerSecond.length - 1) : 0;
         let perClick = isSpecialActive ? candyPerClick * 10n : candyPerClick;
-        $('#total-candy-per-second-value').text((perClick * BigInt(Math.round(clicksPerSecond)) + perSecond).toLocaleString());
+        $('#total-candy-per-second-value').text((BigInt(Math.round(Number(perClick) * clicksPerSecond)) + perSecond).toLocaleString());
     }
 }
 
