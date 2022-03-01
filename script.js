@@ -23,7 +23,7 @@ const shop = [
 
 const uInt64Max = 2n ** 64n - 1n;
 
-let isOnMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const isOnMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 let candyScore = 0n;
 let candyPerClick = 1n;
