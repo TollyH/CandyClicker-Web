@@ -19,7 +19,67 @@ const shop = [
     { "name": "Candyverse Portal", "additionalPerClick": 500n, "additionalPerSecond": 5000n, "price": 5000000n },
     { "name": "Infinite Candy Theory", "additionalPerClick": 1000n, "additionalPerSecond": 10000n, "price": 10000000n },
     { "name": "Unobtainium Candy", "additionalPerClick": 2500n, "additionalPerSecond": 25000n, "price": 15000000n }
-];
+];## Russian Roulete
+
+import random
+from tkinter import *
+
+wd = Tk()
+wd.title = ("Russian Roulete!!!")
+wd.geometry ("1000x1000")
+
+CrazyRussian = PhotoImage(file = "M:\Python\TKinter\Images\Roulete\CrazyRussiansP1P2.png")
+P1Dead = PhotoImage(file = "M:\Python\TKinter\Images\Roulete\CrazyRussiansP1Dead.png")
+P2Dead = PhotoImage(file = "M:\Python\TKinter\Images\Roulete\CrazyRussiansP2dead.png")
+ALLDED = PhotoImage(file = "M:\Python\TKinter\Images\Roulete\CrazyRussiansALLDED.png")
+pl = 1
+chamber = 6
+shoot = random.randint(1,6)
+
+def click():
+    global pl
+    if (pl % 2) == 1:
+        player = 2
+        lbl2 = Label(wd, text = "Player 2 Ded", font = 120)
+    else:
+        player = 1
+        lbl2 = Label(wd, text = "Player 1 Ded", font = 120)
+    both = random.randint(0,4)
+        
+    p1ded = Label(wd, image = P1Dead)
+    p2ded = Label(wd, image = P2Dead)
+    allded = Label(wd, image = ALLDED)
+    
+    global chamber
+    global shoot
+    if chamber == shoot:
+        if both == 1:
+            allded.grid(column = 0, row = 0)
+            lbl2.grid(column = 0, row = 15)
+        elif player == 1:
+            p1ded.grid(column = 0, row = 0)
+            lbl2.grid(column = 0, row = 15)
+        else:
+            p2ded.grid(column = 0, row = 0)
+            lbl2.grid(column = 0, row = 15)
+    chamber = chamber - 1
+    pl = pl + 1
+
+    lbl = Label(wd, text = (str(chamber) + " / 6"))
+    lbl.grid(column = 0, row = 10)
+        
+
+
+Crazy = Label(wd, image = CrazyRussian)
+Crazy.grid(column = 0, row = 0)
+button = Button(wd, text = "      Fire      ", bg = "Red", fg = "Black", font = 30, command = click)
+button.grid(column = 0, row = 8)
+
+
+
+wd.mainloop()
+
+
 
 const uInt64Max = 2n ** 64n - 1n;
 
