@@ -1,86 +1,67 @@
 <!--
     Candy Clicker ver. 2.0.0 (web)
-    Copyright © 2021-2022  Ptolemy Hill
--->
-<!DOCTYPE html>
-<html lang="en-GB">
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-        <title>Candy Clicker Web</title>
-        <link rel="stylesheet" href="styles.css">
-        <link id="favicon" rel="icon" type="image/x-icon" href="icons/candy_xnp_icon.ico">
-        <script src="js/jquery.min.js"></script>
-        <script src="js/download.min.js"></script>
-        <script src="js/md5.min.js"></script>
-    </head>
-    <body>
-        <div id="top-info-grid-1" class="top-info-grid">
-            <div><button id="reincarnate-button" class="corner-button"></button></div>
-            <div id="candy-score" class="center-grid-item candy-clicker-text">0</div>
-            <div class="right-grid-item"><button id="help-button" class="corner-button">?</button></div>
-        </div>
-        <div id="top-info-grid-2" class="top-info-grid">
-            <div id="candy-per-click" class="candy-clicker-text per-meters">+<span id="candy-per-click-value">1</span>/c</div>
-            <div id="total-candy-per-second" class="center-grid-item candy-clicker-text per-meters"><span id="total-candy-per-second-value">0</span> <img id="image-candy-ps" src="images/candy.png" alt="Candy" draggable="false">PS</div>
-            <div id="total-candy-per-second-endgame" class="center-grid-item candy-clicker-text per-meters" style="display: none;">1 <span class="candy-clicker-special-text">★</span>PS</div>
-            <div id="candy-per-second" class="right-grid-item candy-clicker-text per-meters">+<span id="candy-per-second-value">0</span>/s</div>
-        </div>
-        <div id="top-info-grid-3" class="top-info-grid">
-            <div id="per-click-multiplier" class="candy-clicker-special-text per-meters" style="visibility: hidden;">(x10/c)</div>
-            <div id="clicks-per-second" class="center-grid-item candy-clicker-text per-meters"><span id="clicks-per-second-value">0.0</span> CPS</div>
-            <div id="per-second-multiplier" class="right-grid-item candy-clicker-text per-meters" style="visibility: hidden;">(x<span id="per-second-multiplier-value">1</span>/s)</div>
-        </div>
-        <div id="save-load-buttons">
-            <button id="save-button">Save</button>
-            <button id="load-button">Load</button>
-            <input id="hidden-uploader" type="file" accept=".dat" style="display: none;">
-        </div>
-        <progress id="candy-meter" max="1000" value="0"></progress>
-        <img id="main-candy" src="images/candy.png" alt="Main Candy" draggable="false"/>
-        <div id="overflow-banner" class="candy-clicker-special-text"></div>
-        <div id="candy-shop"></div>
-        <template id="candy-shop-item-template">
-            <table class="candy-shop-item">
-                <tr>
-                    <td class="candy-shop-item-name candy-shop-text candy-clicker-text"></td>
-                    <td class="candy-shop-item-price candy-shop-text candy-clicker-text"></td>
-                </tr>
-            </table>
-        </template>
-        <div id="reincarnation-popup-container" class="popup-container" style="display: none; opacity: 0;">
-            <div class="popup-window-border">
-                <div class="popup-window">
-                    <h1 class="popup-content candy-clicker-text">Reincarnation</h1>
-                    <div class="popup-paragraph">
-                        <p id="reincarnation-paragraph" class="popup-content candy-clicker-text">Reincarnation allows you to restart the game with a permanent multiplier added to your candies per second. For every <span id="reincarnation-paragraph-divisor"></span> candies you currently have, you will get an additional multiplier on your candies per second after reincarnation. Your current candies, candies per second, candies per click, shop prices, and previous reincarnations will all be reset. If you have any overflow stars, your candy score will be treated as if it were the limit. You must have at least <span id="reincarnation-paragraph-min-cost"></span> candies to reincarnate.<span id="reincarnation-paragraph-result-line"> Reincarnating now will give you a <span id="reincarnation-paragraph-result"></span>x candy per second multiplier.</span></p>
-                        <p id="endgame-reincarnation-paragraph" class="popup-content candy-clicker-text" style="display: none;">You have reached the reincarnation limit. Reincarnating now will reset everything, including your candies per second multiplier, and instead apply a multiplier to the shop in the new game for every 60 overflow stars you currently have, added onto any shop multiplier you may already have.<span id="endgame-reincarnation-paragraph-result-line"> This works out to <span id="endgame-reincarnation-paragraph-result"></span>x currently.</span></p>
-                    </div>
-                    <button id="reincarnate-agree-button" class="popup-action-button popup-button candy-clicker-text">Reincarnate</button>
-                    <div id="reincarnation-popup-close-line" class="candy-clicker-text">Nevermind</div>
-                </div>
-            </div>
-        </div>
-        <div id="help-popup-container" class="popup-container" style="display: none; opacity: 0;">
-            <div class="popup-window-border">
-                <div class="popup-window">
-                    <button id="help-popup-close-button" class="popup-close-button popup-button candy-clicker-text">X</button>
-                    <h1 class="popup-content candy-clicker-text">Help</h1>
-                    <div class="popup-paragraph">
-                        <h2 class="popup-content candy-clicker-text">Welcome to Candy Clicker!</h2>
-                        <p id="download-desktop-paragraph" class="popup-content candy-clicker-text">You can start playing in your browser now, or, for a higher quality experience with more features, you can <a href="https://github.com/TollyH/CandyClicker/releases/download/v1.1.1/CandyClicker-1.1.1.zip" download>download the Windows version</a>. Save files are compatible between versions if you wish to transfer your progress after starting.</p>
-                        <p class="popup-content candy-clicker-text">The aim of the game is simple: get as much candy as you possibly can! Clicking the large candy in middle will increment your total candies, shown at the very top. Initially, each click will be worth one candy, but this number will soon rise as you buy items from the shop. The number of candies a single click will give you is shown to the left with the abbreviation <i>/c</i> and the number of times you are clicking per second is shown in the centre with the abbreviation <i>CPS</i>. After buying items from the shop, you will also begin to gain candies every second without the need to click. The number of candies you are receiving per second is show to the right with the abbreviation <i>/s</i>.</p>
-                    </div>
-                    <div class="popup-paragraph">
-                        <h2 class="popup-content candy-clicker-text">The Shop</h2>
-                        <p class="popup-content candy-clicker-text">The shop is located at the bottom of the window, listing of all the items that can be bought. The number to the right of each item is its price in candies, which will be red if you can afford the item, or grey if you cannot. To buy an item, simply click on it in the shop, and the cost in candies will immediately be removed from your total balance in return for an increase in your candies per second and candies per click. To see how much a particular item will increase your stats by, hover over it with the mouse pointer; the increase in stats, along with the number of times you have bought the item previously, will be displayed. Every time you buy an item from the shop, its price will increase by a quarter of its original price, so make sure to buy a wide range of items!</p>
-                    </div>
-                    <div class="popup-paragraph">
-                        <h2 class="popup-content candy-clicker-text">Candy Meter</h2>
-                        <p class="popup-content candy-clicker-text">As you click the large candy, the grey bar underneath your stats will gradually begin to fill up. After 1,000 clicks, the bar will be completely full. Once this happens, you will have 5 seconds to click the (now golden) candy as much as possible. During this period, each click will be worth 10x what a click would normally be worth, so be sure to get as many clicks in as you can.<br><i>Note that it will always take 1,000 clicks to fill the meter, regardless of your candies per click value.</i></p>
-                    </div>
-                    <div class="popup-paragraph">
-                        <h2 class="popup-content candy-clicker-text">Reincarnation</h2>
+t">Reincarnation</h2>
+
+
+import random
+from tkinter import *
+
+wd = Tk()
+wd.title = ("Russian Roulete!!!")
+wd.geometry ("1000x1000")
+
+CrazyRussian = PhotoImage(file = "M:\Python\TKinter\Images\Roulete\CrazyRussiansP1P2.png")
+P1Dead = PhotoImage(file = "M:\Python\TKinter\Images\Roulete\CrazyRussiansP1Dead.png")
+P2Dead = PhotoImage(file = "M:\Python\TKinter\Images\Roulete\CrazyRussiansP2dead.png")
+ALLDED = PhotoImage(file = "M:\Python\TKinter\Images\Roulete\CrazyRussiansALLDED.png")
+pl = 1
+chamber = 6
+shoot = random.randint(1,6)
+
+def click():
+    global pl
+    if (pl % 2) == 1:
+        player = 2
+        lbl2 = Label(wd, text = "Player 2 Ded", font = 120)
+    else:
+        player = 1
+        lbl2 = Label(wd, text = "Player 1 Ded", font = 120)
+    both = random.randint(0,4)
+        
+    p1ded = Label(wd, image = P1Dead)
+    p2ded = Label(wd, image = P2Dead)
+    allded = Label(wd, image = ALLDED)
+    
+    global chamber
+    global shoot
+    if chamber == shoot:
+        if both == 1:
+            allded.grid(column = 0, row = 0)
+            lbl2.grid(column = 0, row = 15)
+        elif player == 1:
+            p1ded.grid(column = 0, row = 0)
+            lbl2.grid(column = 0, row = 15)
+        else:
+            p2ded.grid(column = 0, row = 0)
+            lbl2.grid(column = 0, row = 15)
+    chamber = chamber - 1
+    pl = pl + 1
+
+    lbl = Label(wd, text = (str(chamber) + " / 6"))
+    lbl.grid(column = 0, row = 10)
+        
+
+
+Crazy = Label(wd, image = CrazyRussian)
+Crazy.grid(column = 0, row = 0)
+button = Button(wd, text = "      Fire      ", bg = "Red", fg = "Black", font = 30, command = click)
+button.grid(column = 0, row = 8)
+
+
+
+wd.mainloop()
+
+
                         <p class="popup-content candy-clicker-text">Reincarnation allows you to start the game anew with all your stats and the shop reset. In return, you will be granted a multiplier on your candies per second in your new game. You can reincarnate more than once, although each reincarnation will be harder to attain than the last, and you cannot reincarnate in a way that would result in you having a smaller multiplier than you currently have. For more information, click the reincarnation button in the top-left. <img id="reincarnation-help-img" alt="Reincarnation icon" src="images/candy-reincarnate.png"/> Once you have reached the limit of the multiplier you can be given, reincarnating a further time will still cause the game to reset, however you will also lose your CPS multiplier and instead the shop will be upgraded with a multiplier for every 60 overflow stars you currently have.</p>
                     </div>
                     <div class="popup-paragraph">
