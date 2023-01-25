@@ -1,0 +1,19 @@
+{
+  "module": true,
+  "compress": {
+    "arguments": true,
+    "booleans_as_integers": true,
+    "keep_fargs": false,
+    "passes": 8,
+    "unsafe": true
+  },
+  "mangle": {
+    "properties": {
+      "reserved": ["on", "attr", "appendTo", "find", "text", "css", "prop", "empty", "contents", "height", "width", "bind", "clearQueue", "trigger"]
+    },
+    "toplevel": true
+  },
+  "output": {},
+  "parse": {},
+  "rename": {}
+}
